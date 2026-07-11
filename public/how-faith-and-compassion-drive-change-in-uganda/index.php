@@ -1,5 +1,9 @@
 <?php
-require __DIR__ . '/../../bootstrap.php';
+$__dir = __DIR__;
+for ($__i = 0; $__i < 8 && !is_file($__dir . '/bootstrap.php'); $__i++) {
+    $__dir = dirname($__dir);
+}
+require $__dir . '/bootstrap.php';
 
 $post = post_content('how-faith-and-compassion-drive-change-in-uganda');
 $meta = $post['meta'];

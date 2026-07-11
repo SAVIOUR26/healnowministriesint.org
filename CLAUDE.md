@@ -42,13 +42,27 @@ SITE-MAP.md            Extraction notes: nav/footer structure, forms, what was a
 
 ## Why `public/` is the web root
 
-`bootstrap.php`, `content/`, and `templates/` sit **outside** `public/` on
-purpose — they're PHP source, not things a browser should ever be able to
-request directly. Every page in `public/` does:
+`bootstrap.php`, `content/`, and `templates/` sit **outside** `public/` in
+this repo on purpose — they're PHP source, not things a browser should
+ever be able to request directly. Every page in `public/` locates it with
+a small walk-up loader rather than a hardcoded `../` count:
 
 ```php
-require __DIR__ . '/../../bootstrap.php'; // one ../ per directory level
+$__dir = __DIR__;
+for ($__i = 0; $__i < 8 && !is_file($__dir . '/bootstrap.php'); $__i++) {
+    $__dir = dirname($__dir);
+}
+require $__dir . '/bootstrap.php';
 ```
+
+This isn't just defensive: our production FTP account has no directory
+*above* its web root reachable at all, so the deploy workflow
+(`.github/workflows/deploy.yml`) flattens `bootstrap.php`/`content`/
+`templates` to live **inside** the web root instead of beside it —
+one level shallower than local dev. A fixed `../` (or `../../`) count is
+only correct for one specific nesting depth; the walk-up loader finds
+`bootstrap.php` correctly regardless of which layout it's running in. See
+DEPLOY.md for why that FTP account is shaped this way.
 
 Point your web server's document root at `public/`. Locally:
 
