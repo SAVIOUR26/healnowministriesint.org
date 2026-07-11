@@ -1,0 +1,46 @@
+name: Deploy to production (FTP)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Stage deploy layout
+        run: |
+          set -euo pipefail
+
+          # Mirrors the local repo layout, except:
+          #  - public/  -> public_html/  (this host's web root folder name;
+          #    see DEPLOY.md if yours is named htdocs/www/something else)
+          #  - the public/assets symlink is replaced with a real copy of
+          #    assets/{css,js,images} (FTP can't follow symlinks, and the
+          #    large assets/originals source photos aren't needed live)
+          mkdir -p build/public_html/assets
+
+          find public -mindepth 1 -maxdepth 1 ! -name assets -exec cp -r {} build/public_html/ \;
+          cp -r assets/css build/public_html/assets/
+          cp -r assets/js build/public_html/assets/
+          cp -r assets/images build/public_html/assets/
+
+          cp bootstrap.php build/
+          cp -r content build/
+          cp -r templates build/
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT || 21 }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          server-dir: ${{ vars.FTP_SERVER_DIR || '/' }}
+          local-dir: build/
+          dangerous-clean-slate: false
