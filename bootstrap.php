@@ -64,5 +64,5 @@ function is_active(string $href): bool
     if ($href === '/') {
         return $current === '/';
     }
-    return str_starts_with($current, $href);
+    return substr($current, 0, strlen($href)) === $href;
 }

@@ -5,7 +5,7 @@
 
 function btn(string $label, string $href, string $variant = 'primary'): string
 {
-    $external = str_starts_with($href, 'http') ? ' target="_blank" rel="noopener"' : '';
+    $external = substr($href, 0, 4) === 'http' ? ' target="_blank" rel="noopener"' : '';
     return sprintf(
         '<a class="btn btn--%s" href="%s"%s>%s</a>',
         e($variant),
