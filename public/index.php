@@ -21,6 +21,10 @@ render('header.php', ['meta' => $meta]);
             <?= btn('Donate', '/donate/', 'ghost') ?>
         </div>
     </div>
+    <div class="hero__scroll-cue">
+        <span>Scroll</span>
+        <?= icon('chevron-down') ?>
+    </div>
 </section>
 
 <section class="reveal">
@@ -45,6 +49,7 @@ render('header.php', ['meta' => $meta]);
         <div class="grid grid--4">
             <?php foreach ($page['what_we_do']['programs'] as $program): ?>
             <div class="card">
+                <span class="card__icon"><?= icon($program['icon']) ?></span>
                 <h3><?= e($program['title']) ?></h3>
                 <p><?= e($program['body']) ?></p>
             </div>

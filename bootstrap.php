@@ -9,6 +9,7 @@ define('CONTENT_DIR', ROOT_DIR . '/content');
 define('TEMPLATES_DIR', ROOT_DIR . '/templates');
 
 require TEMPLATES_DIR . '/components.php';
+require TEMPLATES_DIR . '/icons.php';
 
 /** Escape a string for safe HTML output. */
 function e(?string $value): string

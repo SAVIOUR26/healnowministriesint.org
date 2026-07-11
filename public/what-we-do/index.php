@@ -25,6 +25,7 @@ render('header.php', ['meta' => $meta]);
         <div class="grid grid--4">
             <?php foreach ($page['programs'] as $program): ?>
             <div class="card">
+                <span class="card__icon"><?= icon($program['icon']) ?></span>
                 <h3><?= e($program['title']) ?></h3>
                 <p><?= e($program['body']) ?></p>
             </div>

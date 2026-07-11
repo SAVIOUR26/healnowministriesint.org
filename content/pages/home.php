@@ -28,18 +28,22 @@ return [
         'cta'      => ['label' => 'Read more', 'href' => '/what-we-do/'],
         'programs' => [
             [
+                'icon'  => 'heart',
                 'title' => "Children's Welfare",
                 'body'  => "At Heal Now Ministries International, we believe every child deserves a chance to thrive. Our Children's Welfare program is dedicated to ensuring that the youngest members of our community receive the basic necessities such as food, clothing, and shelter.",
             ],
             [
+                'icon'  => 'graduation-cap',
                 'title' => 'Youth Empowerment',
                 'body'  => 'Empowering the youth is essential for the future of our community. Our Youth Empowerment program provides young people with technical skills training in various trades, preparing them for the workforce and fostering independence.',
             ],
             [
+                'icon'  => 'users',
                 'title' => "Women's Support",
                 'body'  => "Heal Now Ministries International is committed to addressing the unique challenges faced by women, particularly those with special needs. Our Women's Support program offers comprehensive assistance, including healthcare, counseling, and economic empowerment initiatives.",
             ],
             [
+                'icon'  => 'shield-check',
                 'title' => 'Elderly Care',
                 'body'  => 'Our Elderly Care program is designed to ensure that the elderly in our community live with dignity and respect. We offer comprehensive care, including medical services, social support, and recreational activities.',
             ],

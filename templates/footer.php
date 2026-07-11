@@ -17,9 +17,9 @@ $site = site_content();
                 <?php foreach ($site['social'] as $s): ?>
                 <li>
                     <?php if ($s['href']): ?>
-                    <a href="<?= e($s['href']) ?>" target="_blank" rel="noopener"><?= e($s['label']) ?></a>
+                    <a href="<?= e($s['href']) ?>" target="_blank" rel="noopener" aria-label="<?= e($s['label']) ?>"><?= icon($s['icon']) ?></a>
                     <?php else: ?>
-                    <span><?= e($s['label']) ?></span>
+                    <span aria-label="<?= e($s['label']) ?>"><?= icon($s['icon']) ?></span>
                     <?php endif; ?>
                 </li>
                 <?php endforeach; ?>
@@ -37,12 +37,12 @@ $site = site_content();
 
         <div class="site-footer__col">
             <h2>Contact Us</h2>
-            <ul class="contact-list">
-                <li><?= e($site['contact']['address']) ?></li>
+            <ul class="contact-details">
+                <li><span class="contact-details__icon"><?= icon('map-pin') ?></span><?= e($site['contact']['address']) ?></li>
                 <?php foreach ($site['contact']['phones'] as $phone): ?>
-                <li><a href="tel:<?= e(preg_replace('/\s+/', '', $phone)) ?>"><?= e($phone) ?></a></li>
+                <li><span class="contact-details__icon"><?= icon('phone') ?></span><a href="tel:<?= e(preg_replace('/\s+/', '', $phone)) ?>"><?= e($phone) ?></a></li>
                 <?php endforeach; ?>
-                <li><a href="mailto:<?= e($site['contact']['email']) ?>"><?= e($site['contact']['email']) ?></a></li>
+                <li><span class="contact-details__icon"><?= icon('mail') ?></span><a href="mailto:<?= e($site['contact']['email']) ?>"><?= e($site['contact']['email']) ?></a></li>
             </ul>
         </div>
     </div>

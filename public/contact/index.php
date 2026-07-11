@@ -73,11 +73,11 @@ render('header.php', ['meta' => $meta]);
     <div class="wrap media-split">
         <div>
             <ul class="contact-details">
-                <li><?= e($site['contact']['address']) ?></li>
+                <li><span class="contact-details__icon"><?= icon('map-pin') ?></span><?= e($site['contact']['address']) ?></li>
                 <?php foreach ($site['contact']['phones'] as $phone): ?>
-                <li><a href="tel:<?= e(preg_replace('/\s+/', '', $phone)) ?>"><?= e($phone) ?></a></li>
+                <li><span class="contact-details__icon"><?= icon('phone') ?></span><a href="tel:<?= e(preg_replace('/\s+/', '', $phone)) ?>"><?= e($phone) ?></a></li>
                 <?php endforeach; ?>
-                <li><a href="mailto:<?= e($site['contact']['email']) ?>"><?= e($site['contact']['email']) ?></a></li>
+                <li><span class="contact-details__icon"><?= icon('mail') ?></span><a href="mailto:<?= e($site['contact']['email']) ?>"><?= e($site['contact']['email']) ?></a></li>
             </ul>
         </div>
 

@@ -28,11 +28,11 @@ return [
     ],
 
     'social' => [
-        ['label' => 'LinkedIn', 'href' => null],
-        ['label' => 'Twitter', 'href' => null],
-        ['label' => 'Facebook', 'href' => null],
-        ['label' => 'YouTube', 'href' => 'https://www.youtube.com/channel/UCwWnYiHOKxG-2U_vkcdIIFA'],
-        ['label' => 'WhatsApp', 'href' => 'https://wa.me/256783837750'],
+        ['label' => 'LinkedIn', 'icon' => 'linkedin', 'href' => null],
+        ['label' => 'Twitter', 'icon' => 'twitter', 'href' => null],
+        ['label' => 'Facebook', 'icon' => 'facebook', 'href' => null],
+        ['label' => 'YouTube', 'icon' => 'youtube', 'href' => 'https://www.youtube.com/channel/UCwWnYiHOKxG-2U_vkcdIIFA'],
+        ['label' => 'WhatsApp', 'icon' => 'whatsapp', 'href' => 'https://wa.me/256783837750'],
     ],
 
     'footer_programs' => [
