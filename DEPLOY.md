@@ -24,48 +24,37 @@ Actions tab).
 | `FTP_SERVER_DIR` | `/` | The remote path your FTP account should upload into. See "layout" below — leave as `/` if FTP lands you at your account's home directory. |
 | `FTP_PROTOCOL` | `ftps` | Set to `ftp` only if your host doesn't support FTPS (plain FTP sends your password unencrypted — avoid if possible). |
 
-## 3. Layout this workflow assumes
+## 3. Layout this workflow uses
 
-The workflow stages a `build/` directory that mirrors this repo, except
-`public/` is renamed to **`public_html/`** (the most common cPanel/shared-
-hosting web root name) and `public/assets` (a symlink locally) becomes a
-real folder containing `css/`, `js/`, and `images/` — `assets/originals/`
-(the large source photos) is intentionally left out since nothing at
-runtime reads it.
+Confirmed from the live account's file manager: this FTP account's root
+**is** `public_html` directly — there's no accessible parent directory to
+hide `bootstrap.php`/`content`/`templates` behind. So the workflow
+flattens everything into one directory and uploads it straight to
+`FTP_SERVER_DIR` (`/`, i.e. `public_html` itself):
 
 ```
-build/
-  bootstrap.php
-  content/
-  templates/
-  public_html/        <- becomes https://healnowministriesint.org/
-    index.php
-    about/index.php
-    ...
-    assets/
+build/                 <- uploaded to FTP_SERVER_DIR ("/" = public_html)
+  index.php             becomes https://healnowministriesint.org/
+  about/index.php        .../about/
+  ...
+  assets/               (real copy: css/, js/, images/ — no originals)
+  bootstrap.php         sits at the web root, but only defines
+                        functions/constants — no output, no secrets
+  content/              denied via content/.htaccess (Apache only)
+  templates/            denied via templates/.htaccess (Apache only)
 ```
 
-This only works correctly if **your FTP account has access one level
-above the web root** — i.e. logging in with FTP lands you at a home
-directory that *contains* `public_html/` as one folder among others,
-rather than dropping you directly inside `public_html/`. That's how
-`bootstrap.php`, `content/`, and `templates/` end up outside the web
-root and un-requestable over HTTP, same as the local dev setup.
-
-**If your web root folder isn't named `public_html`** (Plesk often uses
-`htdocs`, some hosts use `www`), tell me and I'll change the one line in
-`deploy.yml` that renames `public/` on stage.
-
-**If your FTP account is scoped only to the web root** (login drops you
-straight into what would be `public_html`, with no sibling folders
-reachable), the layout above won't work as-is — `bootstrap.php`,
-`content/`, and `templates/` would need to be uploaded *inside* the web
-root instead of beside it. Tell me and I'll adjust the staging step to
-flatten everything into one directory. As a safety net for that case,
-`content/.htaccess` and `templates/.htaccess` already deny all HTTP
-access to those two folders outright (Apache only — if your host runs
-nginx instead, that `.htaccess` is silently ignored and does nothing, so
-flag that too if it applies to you).
+This trades a bit of the isolation the local dev layout has (`bootstrap.php`/
+`content`/`templates` living outside `public/` there) for working within
+what this FTP account can actually reach. `content/.htaccess` and
+`templates/.htaccess` block direct HTTP access to those two folders as a
+safety net — that only works if the server is Apache with `AllowOverride`
+enabled for `.htaccess` (the cPanel default). If requests to
+e.g. `/content/site.php` return the file instead of a 403, flag it and
+we'll look at your Apache config — worst case those files just return
+blank output (they're `return [...]` arrays with no side effects, not
+scripts that print anything), so there's no secret-leak risk today, just
+untidiness.
 
 ## 4. Merge to `main`
 

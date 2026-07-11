@@ -16,18 +16,24 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Mirrors the local repo layout, except:
-          #  - public/  -> public_html/  (this host's web root folder name;
-          #    see DEPLOY.md if yours is named htdocs/www/something else)
-          #  - the public/assets symlink is replaced with a real copy of
-          #    assets/{css,js,images} (FTP can't follow symlinks, and the
-          #    large assets/originals source photos aren't needed live)
-          mkdir -p build/public_html/assets
+          # This FTP account's root IS the web root (public_html) directly —
+          # there's no sibling directory to hide bootstrap.php/content/
+          # templates behind. So everything is flattened into one directory:
+          # public/*'s contents at the top level (becoming
+          # https://healnowministriesint.org/...), with bootstrap.php,
+          # content/, and templates/ alongside them as plain subfolders.
+          # content/.htaccess and templates/.htaccess deny HTTP access to
+          # those two folders as a safety net (Apache only).
+          #
+          # The public/assets symlink is replaced with a real copy of
+          # assets/{css,js,images} (FTP can't follow symlinks, and the large
+          # assets/originals source photos aren't needed live).
+          mkdir -p build/assets
 
-          find public -mindepth 1 -maxdepth 1 ! -name assets -exec cp -r {} build/public_html/ \;
-          cp -r assets/css build/public_html/assets/
-          cp -r assets/js build/public_html/assets/
-          cp -r assets/images build/public_html/assets/
+          find public -mindepth 1 -maxdepth 1 ! -name assets -exec cp -r {} build/ \;
+          cp -r assets/css build/assets/
+          cp -r assets/js build/assets/
+          cp -r assets/images build/assets/
 
           cp bootstrap.php build/
           cp -r content build/
