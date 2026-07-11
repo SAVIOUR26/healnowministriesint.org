@@ -19,8 +19,11 @@ function e(?string $value): string
 /** Load a content array from /content/. */
 function site_content(): array
 {
-    static $site;
-    return $site ??= require CONTENT_DIR . '/site.php';
+    static $site = null;
+    if ($site === null) {
+        $site = require CONTENT_DIR . '/site.php';
+    }
+    return $site;
 }
 
 function page_content(string $slug): array
