@@ -5,6 +5,7 @@ for ($__i = 0; $__i < 8 && !is_file($__dir . '/bootstrap.php'); $__i++) {
 }
 require $__dir . '/bootstrap.php';
 
+$site = site_content();
 $page = page_content('home');
 $meta = $page['meta'];
 render('header.php', ['meta' => $meta]);
@@ -13,6 +14,7 @@ render('header.php', ['meta' => $meta]);
 <section class="hero">
     <img class="hero__bg" src="<?= e($page['hero']['image']) ?>" alt="" loading="eager" fetchpriority="high">
     <div class="hero__scrim"></div>
+    <div class="hero__tagline-badge" aria-hidden="true"><?= e($site['tagline']) ?></div>
     <div class="wrap hero__content">
         <span class="eyebrow"><?= e($page['hero']['eyebrow']) ?></span>
         <h1><?= e($page['hero']['headline']) ?></h1>
@@ -26,6 +28,17 @@ render('header.php', ['meta' => $meta]);
         <?= icon('chevron-down') ?>
     </div>
 </section>
+
+<div class="wrap">
+    <div class="hero-quicklinks reveal">
+        <?php foreach ($page['what_we_do']['programs'] as $program): ?>
+        <div class="hero-quicklinks__item">
+            <span class="hero-quicklinks__icon"><?= icon($program['icon']) ?></span>
+            <span><?= e($program['title']) ?></span>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
 
 <section class="reveal">
     <div class="wrap media-split">

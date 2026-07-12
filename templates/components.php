@@ -7,11 +7,12 @@ function btn(string $label, string $href, string $variant = 'primary'): string
 {
     $external = substr($href, 0, 4) === 'http' ? ' target="_blank" rel="noopener"' : '';
     return sprintf(
-        '<a class="btn btn--%s" href="%s"%s>%s</a>',
+        '<a class="btn btn--%s" href="%s"%s>%s%s</a>',
         e($variant),
         e($href),
         $external,
-        e($label)
+        e($label),
+        icon('arrow-right', 'icon btn__arrow')
     );
 }
 

@@ -63,6 +63,6 @@ return [
     'get_involved' => [
         'heading' => 'Get Involved',
         'body'    => 'At Heal Now Ministries International, we believe in the power of community. Together, we can create lasting change and transform lives across Uganda. Your involvement, whether as a volunteer, partner, or advocate, makes a difference. There are countless ways to get involved with Heal Now Ministries International, and we invite you to join us in our mission to empower communities and uplift lives.',
-        'cta'     => ['label' => 'Click here', 'href' => '/get-involved/'],
+        'cta'     => ['label' => 'Get Involved', 'href' => '/get-involved/'],
     ],
 ];
